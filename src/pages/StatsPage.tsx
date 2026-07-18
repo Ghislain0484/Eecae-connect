@@ -3,7 +3,7 @@ import { useDashboardStats } from '../hooks/useDashboardStats';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../lib/supabase';
 import { PageHeader, Card, CardHeader, StatCard, EmptyState } from '../components/ui';
-import { Users, UserPlus, TrendingUp, Calendar, Download } from 'lucide-react';
+import { Users, UserPlus, TrendingUp, Calendar, Download, User, Baby, Flame } from 'lucide-react';
 import { formatNumber, formatCurrency } from '../lib/utils';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell as RechartsCell } from 'recharts';
 import { Button } from '../components/ui';
@@ -106,6 +106,57 @@ export function StatsPage() {
         </Card>
       </div>
 
+      {/* NEW: Demographics Card displaying exact counts for Men, Women, Youth and Children */}
+      <Card className="mb-6">
+        <CardHeader title="Démographie des Membres" subtitle="Effectifs réels et pourcentages de l'assemblée" />
+        <div className="p-5 space-y-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <DemographicBox
+              label="Hommes"
+              value={stats?.men ?? 0}
+              total={stats?.totalMembers ?? 1}
+              icon={<User className="h-5 w-5 text-blue-600" />}
+              color="blue"
+            />
+            <DemographicBox
+              label="Femmes"
+              value={stats?.women ?? 0}
+              total={stats?.totalMembers ?? 1}
+              icon={<User className="h-5 w-5 text-rose-600" />}
+              color="rose"
+            />
+            <DemographicBox
+              label="Jeunes (12-40 ans)"
+              value={stats?.youth12to40 ?? 0}
+              total={stats?.totalMembers ?? 1}
+              icon={<Flame className="h-5 w-5 text-amber-600" />}
+              color="amber"
+            />
+            <DemographicBox
+              label="Enfants (0-11 ans)"
+              value={stats?.children ?? 0}
+              total={stats?.totalMembers ?? 1}
+              icon={<Baby className="h-5 w-5 text-emerald-600" />}
+              color="emerald"
+            />
+          </div>
+
+          {/* Gender Ratio Progress Bar */}
+          <div className="space-y-2 pt-2">
+            <div className="flex justify-between text-xs font-semibold text-ink-600">
+              <span>Hommes ({Math.round(((stats?.men ?? 0) / (stats?.totalMembers || 1)) * 100)}%)</span>
+              <span>Femmes ({Math.round(((stats?.women ?? 0) / (stats?.totalMembers || 1)) * 100)}%)</span>
+            </div>
+            <div className="w-full h-3 rounded-full bg-rose-200 dark:bg-rose-950/40 overflow-hidden flex">
+              <div
+                className="bg-blue-500 h-full transition-all duration-500"
+                style={{ width: `${((stats?.men ?? 0) / (stats?.totalMembers || 1)) * 100}%` }}
+              />
+            </div>
+          </div>
+        </div>
+      </Card>
+
       <Card>
         <CardHeader title="Indicateurs de croissance" subtitle="Calculés à partir des données réelles" />
         <div className="p-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -119,6 +170,28 @@ export function StatsPage() {
           <GrowthIndicator label="Solde" value={formatCurrency(stats?.balance ?? 0)} positive={(stats?.balance ?? 0) >= 0} />
         </div>
       </Card>
+    </div>
+  );
+}
+
+function DemographicBox({ label, value, total, icon, color }: { label: string; value: number; total: number; icon: React.ReactNode; color: string }) {
+  const colors: Record<string, string> = {
+    blue: 'bg-blue-50/50 text-blue-700 border-blue-200 dark:bg-blue-950/20 dark:text-blue-400 dark:border-blue-900',
+    rose: 'bg-rose-50/50 text-rose-700 border-rose-200 dark:bg-rose-950/20 dark:text-rose-400 dark:border-rose-900',
+    amber: 'bg-amber-50/50 text-amber-700 border-amber-200 dark:bg-amber-950/20 dark:text-amber-400 dark:border-amber-900',
+    emerald: 'bg-emerald-50/50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/20 dark:text-emerald-400 dark:border-emerald-900',
+  };
+  const percentage = Math.round((value / (total || 1)) * 100);
+  return (
+    <div className={`p-4 rounded-xl border flex items-center justify-between ${colors[color] || ''}`}>
+      <div className="flex items-center gap-3">
+        <div className="p-2.5 bg-white dark:bg-ink-950 rounded-lg shadow-xs">{icon}</div>
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-wider opacity-70">{label}</p>
+          <p className="font-display text-xl font-bold mt-0.5">{value}</p>
+        </div>
+      </div>
+      <span className="text-xs font-bold opacity-80">{percentage}%</span>
     </div>
   );
 }
