@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { FolderOpen, FileText, Printer, Download, UploadCloud, ChevronRight, Check, Search, Calendar, FileType2, Eye } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
-import { PageHeader, Card, Button, Input, Select } from '../components/ui';
+import { PageHeader, Card, Button, Input, Select, Modal } from '../components/ui';
 import { useToast } from '../components/ui/Toast';
 import { formatDate } from '../lib/utils';
 

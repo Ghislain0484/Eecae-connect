@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { ShieldCheck, UserPlus, Users, Plus, Trash2, Key, CheckSquare, Square, Building2, ShieldAlert } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
-import { PageHeader, Card, Button, Input, Select } from '../components/ui';
+import { PageHeader, Card, Button, Input, Select, Modal } from '../components/ui';
 import { useToast } from '../components/ui/Toast';
 import { ROLE_LABELS } from '../types/constants';
 import { logAudit } from '../lib/audit';
