@@ -52,34 +52,62 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .eq('is_active', true);
     setAccesses((acc as UserChurchAccess[]) || []);
 
-    const accessibleIds = ((acc as UserChurchAccess[]) || [])
-      .map((a) => a.church_id)
-      .concat(prof?.default_church_id ? [prof.default_church_id] : []);
-    const uniqueIds = [...new Set(accessibleIds)];
+    const isGlobalAdmin = prof?.role === 'super_admin' || prof?.role === 'hq_admin' || prof?.role === 'senior_pastor';
 
-    if (uniqueIds.length) {
-      const { data: churches } = await supabase
+    if (isGlobalAdmin) {
+      // Global roles can switch between all active temples
+      const { data: allChurches } = await supabase
         .from('churches')
         .select('*')
-        .in('id', uniqueIds)
         .eq('status', 'active')
         .order('is_headquarters', { ascending: false })
         .order('name', { ascending: true });
-      const churchesList = (churches as Church[]) || [];
+      const churchesList = (allChurches as Church[]) || [];
       setAccessibleChurches(churchesList);
 
       const lastChurchId = localStorage.getItem(LAST_CHURCH_KEY);
       const found = churchesList.find((c) => c.id === lastChurchId);
       if (found) {
         setActiveChurch(found);
+      } else if (prof?.default_church_id) {
+        const defaultChurch = churchesList.find((c) => c.id === prof.default_church_id);
+        setActiveChurch(defaultChurch || churchesList[0] || null);
       } else if (churchesList.length > 0) {
         setActiveChurch(churchesList[0]);
       } else {
         setActiveChurch(null);
       }
     } else {
-      setAccessibleChurches([]);
-      setActiveChurch(null);
+      // Local roles are scoped to default or explicitly assigned accesses
+      const accessibleIds = ((acc as UserChurchAccess[]) || [])
+        .map((a) => a.church_id)
+        .concat(prof?.default_church_id ? [prof.default_church_id] : []);
+      const uniqueIds = [...new Set(accessibleIds)];
+
+      if (uniqueIds.length) {
+        const { data: churches } = await supabase
+          .from('churches')
+          .select('*')
+          .in('id', uniqueIds)
+          .eq('status', 'active')
+          .order('is_headquarters', { ascending: false })
+          .order('name', { ascending: true });
+        const churchesList = (churches as Church[]) || [];
+        setAccessibleChurches(churchesList);
+
+        const lastChurchId = localStorage.getItem(LAST_CHURCH_KEY);
+        const found = churchesList.find((c) => c.id === lastChurchId);
+        if (found) {
+          setActiveChurch(found);
+        } else if (churchesList.length > 0) {
+          setActiveChurch(churchesList[0]);
+        } else {
+          setActiveChurch(null);
+        }
+      } else {
+        setAccessibleChurches([]);
+        setActiveChurch(null);
+      }
     }
   };
 
