@@ -183,26 +183,26 @@ export function UsersPage() {
     },
   });
 
+  const [newPassword, setNewPassword] = useState('');
+
   const createProfileMutation = useMutation({
-    mutationFn: async (vars: { email: string; fullName: string; role: string; defaultChurchId: string }) => {
-      // Note: In local/demo mode without custom signup server, we insert directly in user_profiles.
-      // In production, we'd call signUp or supabase.auth.admin.createUser.
-      // We generate a random UUID since this is just a demo profile.
-      const { error } = await supabase.from('user_profiles').insert({
-        id: crypto.randomUUID(),
-        email: vars.email,
-        full_name: vars.fullName,
-        role: vars.role,
-        default_church_id: vars.defaultChurchId || null,
-        is_active: true,
+    mutationFn: async (vars: { email: string; password: string; fullName: string; role: string; defaultChurchId: string }) => {
+      const { data, error } = await supabase.rpc('create_new_user', {
+        p_email: vars.email,
+        p_password: vars.password,
+        p_full_name: vars.fullName,
+        p_role: vars.role,
+        p_church_id: vars.defaultChurchId || null
       });
       if (error) throw error;
+      return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['user-profiles'] });
-      toast.success('Profil créé avec succès');
+      toast.success('Compte utilisateur et profil créés avec succès');
       setShowNewUserModal(false);
       setNewEmail('');
+      setNewPassword('');
       setNewFullName('');
     },
     onError: (err) => {
@@ -451,14 +451,19 @@ export function UsersPage() {
               </Button>
               <Button
                 loading={createProfileMutation.isPending}
-                onClick={() =>
+                onClick={() => {
+                  if (!newPassword || newPassword.length < 6) {
+                    toast.error('Erreur', 'Le mot de passe doit faire au moins 6 caractères.');
+                    return;
+                  }
                   createProfileMutation.mutate({
                     email: newEmail,
+                    password: newPassword,
                     fullName: newFullName,
                     role: newRole,
                     defaultChurchId: newDefaultChurchId,
-                  })
-                }
+                  });
+                }}
               >
                 Créer l'utilisateur
               </Button>
@@ -467,6 +472,7 @@ export function UsersPage() {
         >
           <div className="space-y-4">
             <Input label="Adresse e-mail" type="email" value={newEmail} onChange={(e) => setNewEmail(e.target.value)} placeholder="nom@eecae.ci" />
+            <Input label="Mot de passe (min. 6 car.)" type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder="••••••••" />
             <Input label="Nom Complet" type="text" value={newFullName} onChange={(e) => setNewFullName(e.target.value)} placeholder="ex: Koffi Kouassi Jean" />
             <Select label="Rôle global de départ" value={newRole} onChange={(e) => setNewRole(e.target.value)}>
               <option value="secretary">Secrétaire</option>
