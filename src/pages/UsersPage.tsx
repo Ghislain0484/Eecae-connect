@@ -475,9 +475,16 @@ export function UsersPage() {
             <Input label="Mot de passe (min. 6 car.)" type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder="••••••••" />
             <Input label="Nom Complet" type="text" value={newFullName} onChange={(e) => setNewFullName(e.target.value)} placeholder="ex: Koffi Kouassi Jean" />
             <Select label="Rôle global de départ" value={newRole} onChange={(e) => setNewRole(e.target.value)}>
+              <option value="senior_pastor">Pasteur Principal (Fondateur)</option>
+              <option value="hq_admin">Administrateur du Siège (QG)</option>
+              <option value="super_admin">Super Administrateur</option>
+              <option value="assembly_pastor">Pasteur d'assemblée</option>
+              <option value="pastoral_care">Chargé de Suivi Pastoral</option>
               <option value="secretary">Secrétaire</option>
               <option value="treasurer">Trésorier</option>
-              <option value="assembly_pastor">Pasteur d'assemblée</option>
+              <option value="department_head">Responsable de Département</option>
+              <option value="cell_leader">Conducteur de Cellule</option>
+              <option value="data_entry">Agent de Saisie</option>
               <option value="member">Membre</option>
             </Select>
             <Select label="Église de rattachement par défaut" value={newDefaultChurchId} onChange={(e) => setNewDefaultChurchId(e.target.value)}>
