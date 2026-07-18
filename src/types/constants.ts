@@ -111,11 +111,12 @@ export const PAYMENT_METHOD_LABELS: Record<PaymentMethod, string> = {
 export const CONTRIBUTION_CATEGORIES = [
   'Offrande générale',
   'Dîme',
+  'Panier de la foi',
   'Offrande spéciale',
   'Action de grâce',
+  'Offrande de mission',
   'Don',
   'Offrande de construction',
-  'Offrande missionnaire',
   'Contribution à un programme',
   'Cotisation',
   'Offrande de cellule',
