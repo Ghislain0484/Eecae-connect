@@ -19,6 +19,14 @@ import { DepartmentsPage } from './pages/DepartmentsPage';
 import { CellsPage } from './pages/CellsPage';
 import { SpiritualFamiliesPage } from './pages/SpiritualFamiliesPage';
 import { StatsPage } from './pages/StatsPage';
+import { PastoralPage } from './pages/PastoralPage';
+import { TrainingPage } from './pages/TrainingPage';
+import { CommunicationPage } from './pages/CommunicationPage';
+import { DocumentsPage } from './pages/DocumentsPage';
+import { UsersPage } from './pages/UsersPage';
+import { AuditPage } from './pages/AuditPage';
+import { SettingsPage } from './pages/SettingsPage';
+import { ProfilePage } from './pages/ProfilePage';
 import { PlaceholderPage } from './pages/PlaceholderPage';
 import { Loader2 } from 'lucide-react';
 
@@ -68,14 +76,14 @@ function AppRoutes() {
         <Route path="/cells" element={<CellsPage />} />
         <Route path="/spiritual-families" element={<SpiritualFamiliesPage />} />
         <Route path="/stats" element={<StatsPage />} />
-        <Route path="/pastoral" element={<PlaceholderPage title="Suivi pastoral" icon="heart" />} />
-        <Route path="/training" element={<PlaceholderPage title="Formations" icon="graduation" />} />
-        <Route path="/communication" element={<PlaceholderPage title="Communication" icon="megaphone" />} />
-        <Route path="/documents" element={<PlaceholderPage title="Documents" icon="folder" />} />
-        <Route path="/admin/users" element={<PlaceholderPage title="Gestion des utilisateurs" icon="shield" />} />
-        <Route path="/admin/audit" element={<PlaceholderPage title="Journal d'audit" icon="shield" />} />
-        <Route path="/admin/settings" element={<PlaceholderPage title="Paramètres" icon="settings" />} />
-        <Route path="/profile" element={<PlaceholderPage title="Mon profil" icon="user" />} />
+        <Route path="/pastoral" element={<PastoralPage />} />
+        <Route path="/training" element={<TrainingPage />} />
+        <Route path="/communication" element={<CommunicationPage />} />
+        <Route path="/documents" element={<DocumentsPage />} />
+        <Route path="/admin/users" element={<UsersPage />} />
+        <Route path="/admin/audit" element={<AuditPage />} />
+        <Route path="/admin/settings" element={<SettingsPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Route>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
