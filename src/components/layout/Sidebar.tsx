@@ -2,7 +2,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard, Church, Users, UserPlus, CalendarCheck, CalendarDays,
   BookOpen, Building2, Home, HeartHandshake, GraduationCap, Wallet,
-  Megaphone, FolderOpen, BarChart3, Settings, ShieldCheck, X, Palette,
+  Megaphone, FolderOpen, BarChart3, Settings, ShieldCheck, X, Palette, Radio,
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { useAuth } from '../../contexts/AuthContext';
@@ -46,6 +46,7 @@ export function Sidebar({ open, onClose }: { open: boolean; onClose: () => void 
     {
       title: 'Cultes & Présences',
       items: [
+        { to: '/live-worship', label: 'Culte en Direct', icon: Radio, permission: hasPermission(role, 'attendance.view') },
         { to: '/attendance', label: 'Présences', icon: CalendarCheck, permission: hasPermission(role, 'attendance.view') },
         { to: '/absences', label: 'Absences', icon: CalendarCheck, permission: hasPermission(role, 'absences.view') },
         { to: '/events', label: 'Programmes', icon: CalendarDays, permission: hasPermission(role, 'events.view') },

@@ -13,6 +13,7 @@ import { VisitorsPage } from './pages/VisitorsPage';
 import { EventsPage } from './pages/EventsPage';
 import { SermonsPage } from './pages/SermonsPage';
 import { AttendancePage } from './pages/AttendancePage';
+import { LiveWorshipPage } from './pages/LiveWorshipPage';
 import { AbsencesPage } from './pages/AbsencesPage';
 import { FinancePage } from './pages/FinancePage';
 import { ChurchesPage } from './pages/ChurchesPage';
@@ -69,6 +70,7 @@ function AppRoutes() {
         <Route path="/visitors" element={<VisitorsPage />} />
         <Route path="/events" element={<EventsPage />} />
         <Route path="/sermons" element={<SermonsPage />} />
+        <Route path="/live-worship" element={<LiveWorshipPage />} />
         <Route path="/attendance" element={<AttendancePage />} />
         <Route path="/absences" element={<AbsencesPage />} />
         <Route path="/finance" element={<FinancePage />} />
