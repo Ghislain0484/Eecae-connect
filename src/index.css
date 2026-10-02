@@ -1,99 +1,125 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --brand-primary: #7a1e30;
+    --brand-primary-hover: #5e1624;
+    --brand-primary-light: #fbf3f4;
+    --brand-accent: #d4a82f;
+    --brand-accent-hover: #bd8a23;
+    --brand-accent-light: #fdfbf3;
+  }
+
   html {
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-ink-50 text-ink-900 font-sans antialiased;
-    font-feature-settings: 'cv11', 'ss01';
+    @apply bg-ink-50/70 text-ink-900 font-sans antialiased;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+  ::selection {
+    background-color: var(--brand-primary-light, #fbf3f4);
+    color: var(--brand-primary, #7a1e30);
   }
   .dark body {
     @apply bg-ink-950 text-ink-100;
   }
   * {
-    @apply border-ink-200;
+    @apply border-ink-200/80;
   }
   .dark * {
-    @apply border-ink-800;
+    @apply border-ink-800/80;
   }
   ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
   }
   ::-webkit-scrollbar-track {
     @apply bg-transparent;
   }
   ::-webkit-scrollbar-thumb {
-    @apply bg-ink-300 rounded-full;
+    @apply bg-ink-300/80 rounded-full hover:bg-ink-400;
   }
   .dark ::-webkit-scrollbar-thumb {
-    @apply bg-ink-700;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-ink-400;
+    @apply bg-ink-700/80 hover:bg-ink-600;
   }
 }
 
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-200 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm;
   }
   .dark .btn {
     @apply focus:ring-offset-ink-950;
   }
   .btn-primary {
-    @apply btn bg-bordeaux-700 text-white hover:bg-bordeaux-800 focus:ring-bordeaux-500 shadow-sm;
+    @apply btn text-white hover:opacity-95 focus:ring-brand-primary shadow-sm hover:shadow-md;
+    background-color: var(--brand-primary, #7a1e30);
   }
   .btn-secondary {
-    @apply btn bg-white text-ink-700 border border-ink-200 hover:bg-ink-50 focus:ring-ink-400 shadow-sm;
+    @apply btn bg-white text-ink-700 border border-ink-200/80 hover:bg-ink-50 hover:border-ink-300 focus:ring-ink-400 shadow-sm;
   }
   .dark .btn-secondary {
-    @apply bg-ink-800 text-ink-100 border-ink-700 hover:bg-ink-700;
+    @apply bg-ink-900/90 text-ink-100 border-ink-700/70 hover:bg-ink-800 hover:border-ink-600;
   }
   .btn-gold {
-    @apply btn bg-gold-500 text-ink-900 hover:bg-gold-600 focus:ring-gold-400 shadow-sm;
+    @apply btn text-ink-950 hover:opacity-95 focus:ring-brand-accent shadow-sm;
+    background-color: var(--brand-accent, #d4a82f);
   }
   .btn-ghost {
-    @apply btn text-ink-600 hover:bg-ink-100 focus:ring-ink-300;
+    @apply btn bg-transparent text-ink-600 hover:bg-ink-100/80 dark:hover:bg-ink-800/60 focus:ring-ink-300 shadow-none;
   }
   .dark .btn-ghost {
-    @apply text-ink-300 hover:bg-ink-800;
+    @apply text-ink-300;
   }
   .btn-danger {
     @apply btn bg-red-600 text-white hover:bg-red-700 focus:ring-red-400 shadow-sm;
   }
+
   .input {
-    @apply w-full rounded-lg border border-ink-200 bg-white px-3.5 py-2.5 text-sm text-ink-900 placeholder-ink-400 transition-colors focus:border-bordeaux-500 focus:outline-none focus:ring-2 focus:ring-bordeaux-500/20;
+    @apply w-full rounded-xl border border-ink-200/90 bg-white px-3.5 py-2.5 text-sm text-ink-900 placeholder-ink-400 transition-all duration-200 focus:border-bordeaux-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-bordeaux-500/20 shadow-sm;
   }
   .dark .input {
-    @apply border-ink-700 bg-ink-900 text-ink-100 placeholder-ink-500 focus:border-bordeaux-400;
+    @apply border-ink-700/80 bg-ink-900/90 text-ink-100 placeholder-ink-500 focus:border-bordeaux-400 focus:bg-ink-900;
   }
   .label {
-    @apply block text-sm font-medium text-ink-700 mb-1.5;
+    @apply block text-xs font-semibold uppercase tracking-wider text-ink-600 dark:text-ink-400 mb-1.5;
   }
-  .dark .label {
-    @apply text-ink-300;
-  }
+
   .card {
-    @apply rounded-xl border border-ink-200 bg-white shadow-card;
+    @apply rounded-2xl border border-ink-200/80 bg-white shadow-card transition-all duration-200;
   }
   .dark .card {
-    @apply border-ink-800 bg-ink-900;
+    @apply border-ink-800/80 bg-ink-900/90 backdrop-blur-md;
   }
+  .card-hover {
+    @apply hover:shadow-card-hover hover:border-ink-300/80 dark:hover:border-ink-700/80 hover:-translate-y-0.5;
+  }
+
+  .glass-panel {
+    @apply bg-white/80 dark:bg-ink-900/80 backdrop-blur-xl border border-white/20 dark:border-white/5 shadow-card-lg;
+  }
+
   .badge {
-    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium;
+    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-semibold tracking-wide;
   }
+
+  /* Status pulse indicator */
+  .status-pulse {
+    @apply relative flex h-2 w-2;
+  }
+  .status-pulse-ping {
+    @apply animate-ping absolute inline-flex h-full w-full rounded-full opacity-75;
+  }
+  .status-pulse-dot {
+    @apply relative inline-flex rounded-full h-2 w-2;
+  }
+
   .skeleton {
-    @apply relative overflow-hidden bg-ink-100 rounded-md;
-  }
-  .dark .skeleton {
-    @apply bg-ink-800;
+    @apply relative overflow-hidden bg-ink-100 dark:bg-ink-800 rounded-xl;
   }
   .skeleton::after {
     @apply absolute inset-0 animate-shimmer;

@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { useAuth } from '../../contexts/AuthContext';
+import { useBranding } from '../../contexts/BrandingContext';
 import { hasPermission, canViewFinance, canManageUsers } from '../../lib/permissions';
 
 interface NavItem {
@@ -18,6 +19,7 @@ interface NavItem {
 
 export function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { profile } = useAuth();
+  const { branding } = useBranding();
   const role = profile?.role;
   const location = useLocation();
 
@@ -94,11 +96,22 @@ export function Sidebar({ open, onClose }: { open: boolean; onClose: () => void 
         )}
       >
         {/* Logo header */}
-        <div className="flex items-center gap-3 px-5 h-16 border-b border-ink-200 dark:border-ink-800 shrink-0">
-          <img src="/Logo_CAE.png" alt="EECAE" className="h-10 w-10 rounded-xl object-cover shadow-sm" />
+        <div className="flex items-center gap-3 px-5 h-16 border-b border-ink-200/80 dark:border-ink-800/80 shrink-0 bg-gradient-to-r from-brand-primary-light/50 to-transparent dark:from-brand-primary/10">
+          <img
+            src={branding.logoUrl || '/Logo_CAE.png'}
+            alt={branding.shortName}
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = '/Logo_CAE.png';
+            }}
+            className="h-10 w-10 rounded-xl object-contain shadow-xs bg-white dark:bg-ink-800 p-0.5 border border-ink-100 dark:border-ink-700 shrink-0"
+          />
           <div className="flex-1 min-w-0">
-            <p className="font-display text-base font-bold text-bordeaux-800 dark:text-bordeaux-300 leading-tight">EECAE</p>
-            <p className="text-[11px] text-ink-400 truncate">Centre d'Adoration de l'Éternel</p>
+            <p className="font-serif text-base font-bold tracking-tight text-ink-900 dark:text-white leading-tight truncate">
+              {branding.shortName}
+            </p>
+            <p className="text-[11px] text-ink-500 dark:text-ink-400 font-medium truncate">
+              {branding.tagline}
+            </p>
           </div>
           <button onClick={onClose} className="lg:hidden btn-ghost p-1.5">
             <X className="h-5 w-5" />
@@ -113,7 +126,7 @@ export function Sidebar({ open, onClose }: { open: boolean; onClose: () => void 
             return (
               <div key={gi}>
                 {group.title && (
-                  <p className="px-3 mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-ink-400">{group.title}</p>
+                  <p className="px-3 mb-1.5 text-[10px] font-bold uppercase tracking-wider text-ink-400 dark:text-ink-500">{group.title}</p>
                 )}
                 <div className="space-y-0.5">
                   {visibleItems.map((item) => {
@@ -125,14 +138,14 @@ export function Sidebar({ open, onClose }: { open: boolean; onClose: () => void 
                         to={item.to}
                         onClick={() => onClose()}
                         className={cn(
-                          'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                          'flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-150',
                           active
-                            ? 'bg-bordeaux-50 text-bordeaux-700 dark:bg-bordeaux-900/30 dark:text-bordeaux-300'
-                            : 'text-ink-600 hover:bg-ink-100 hover:text-ink-900 dark:text-ink-400 dark:hover:bg-ink-800 dark:hover:text-ink-100',
+                            ? 'bg-brand-primary/10 text-brand-primary font-semibold dark:bg-brand-primary/20 dark:text-white shadow-xs border-l-[3px] border-brand-primary pl-[9px]'
+                            : 'text-ink-600 hover:bg-ink-100/80 hover:text-ink-950 dark:text-ink-400 dark:hover:bg-ink-800/60 dark:hover:text-ink-100',
                         )}
                       >
                         <Icon className="h-[18px] w-[18px] shrink-0" />
-                        {item.label}
+                        <span>{item.label}</span>
                       </NavLink>
                     );
                   })}
@@ -143,8 +156,9 @@ export function Sidebar({ open, onClose }: { open: boolean; onClose: () => void 
         </nav>
 
         {/* Footer */}
-        <div className="border-t border-ink-200 dark:border-ink-800 px-5 py-3 shrink-0">
-          <p className="text-[11px] text-ink-400 text-center">EECAE · v1.0 — Phase 1</p>
+        <div className="border-t border-ink-200/80 dark:border-ink-800/80 px-5 py-3 shrink-0 flex items-center justify-between text-[11px] text-ink-400">
+          <span className="font-semibold text-ink-600 dark:text-ink-300">{branding.shortName}</span>
+          <span>v2.0 Pro</span>
         </div>
       </aside>
     </>

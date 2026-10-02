@@ -5,6 +5,15 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Dynamic Brand Theme (White-Labeling Ready)
+        brand: {
+          primary: 'var(--brand-primary, #7a1e30)',
+          'primary-hover': 'var(--brand-primary-hover, #5e1624)',
+          'primary-light': 'var(--brand-primary-light, #fbf3f4)',
+          accent: 'var(--brand-accent, #d4a82f)',
+          'accent-hover': 'var(--brand-accent-hover, #bd8a23)',
+          'accent-light': 'var(--brand-accent-light, #fdfbf3)',
+        },
         // EECAE brand palette: bordeaux, beige, white, gold
         bordeaux: {
           50: '#fbf3f4',
@@ -55,13 +64,18 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        display: ['"Playfair Display"', 'Georgia', 'serif'],
+        sans: ['"Plus Jakarta Sans"', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        display: ['"Playfair Display"', '"Cinzel"', 'Georgia', 'serif'],
+        serif: ['"Cinzel"', '"Playfair Display"', 'Georgia', 'serif'],
+        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
       boxShadow: {
-        card: '0 1px 2px 0 rgb(0 0 0 / 0.04), 0 1px 3px 0 rgb(0 0 0 / 0.06)',
-        'card-lg': '0 4px 12px -2px rgb(0 0 0 / 0.08), 0 2px 6px -2px rgb(0 0 0 / 0.05)',
-        glow: '0 0 0 1px rgb(212 168 47 / 0.2), 0 8px 24px -8px rgb(122 30 48 / 0.25)',
+        card: '0 1px 3px 0 rgb(0 0 0 / 0.05), 0 1px 2px -1px rgb(0 0 0 / 0.05)',
+        'card-lg': '0 10px 25px -3px rgb(0 0 0 / 0.08), 0 4px 6px -2px rgb(0 0 0 / 0.04)',
+        'card-hover': '0 20px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.04)',
+        glow: '0 0 0 1px rgb(212 168 47 / 0.25), 0 8px 24px -8px rgb(122 30 48 / 0.3)',
+        'glow-gold': '0 0 20px -3px rgba(212, 168, 47, 0.35)',
+        'glow-bordeaux': '0 0 20px -3px rgba(122, 30, 48, 0.35)',
       },
       keyframes: {
         'fade-in': {
